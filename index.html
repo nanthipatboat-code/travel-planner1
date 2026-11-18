@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>ChomChao</title>
+<title>ChomChao V47</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -1573,6 +1573,74 @@
   .day-head.on { border-bottom-color: var(--primary); }
   .activity[draggable="true"] { cursor: grab; }
   .activity.dragging { opacity: .5; }
+
+  /* V42: แถบวันที่เลือกอยู่ต้องมองเห็นชัด (เดิมตัวอักษรขาวบนพื้นขาว) */
+  .card .day-tabs .day-tab, .day-tab, .day-tabs .day-tab {
+    background: #ffffff !important; color: #0f172a !important; border: 1px solid #94a3b8 !important;
+    text-decoration: none !important; font-weight: 600 !important;
+  }
+  .card .day-tabs .day-tab.active, .day-tabs .day-tab.active, .day-tab.active {
+    background: #0f172a !important; color: #ffffff !important; border-color: #0f172a !important;
+    text-decoration: none !important; font-weight: 700 !important;
+  }
+  /* หัวข้อวันในรายการกิจกรรม */
+  .day-head b { color: #0f172a !important; }
+  .day-head.on b { color: #0f766e !important; }
+
+  /* V43: โครงแบบ Wanderlog: ซ้ายแผนทุกวัน ขวาแผนที่ และอากาศ/โรงแรมอยู่ใต้แผนที่ */
+  .plan-layout2 { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); gap: 24px; align-items: start; }
+  .side-col { position: sticky; top: 84px; }
+  .side-col .card { margin-bottom: 16px; }
+  .trip-head { margin-bottom: 24px; }
+  @media (max-width: 900px) {
+    .plan-layout2 { grid-template-columns: 1fr; }
+    .side-col { position: static; }
+  }
+
+  /* V44: แถบวันเป็นคอลัมน์แนวตั้งทางซ้าย */
+  .plan-layout2 { grid-template-columns: 150px minmax(0, 1.2fr) minmax(0, 1fr) !important; }
+  .day-rail { position: sticky; top: 84px; align-self: start; }
+  .day-rail-title { font-size: 12px; color: var(--ink-2); font-weight: 600; letter-spacing: .3px; margin: 0 0 8px 4px; }
+  .day-rail .day-tabs { flex-direction: column; flex-wrap: nowrap; gap: 6px; margin: 0; }
+  .day-rail .day-tab { width: 100%; text-align: left; padding: 9px 12px; white-space: nowrap; }
+  /* จอกลาง: คงแถบวันแนวตั้งไว้ ย่อคอลัมน์ให้แคบลง */
+  @media (max-width: 900px) {
+    .plan-layout2 { grid-template-columns: 118px minmax(0, 1fr) !important; }
+    .plan-layout2 > .side-col { grid-column: 2; }
+    .day-rail { position: sticky; }
+    .day-rail .day-tab { font-size: 12px; padding: 7px 9px; }
+  }
+  /* จอเล็กมาก: แถบวันกลายเป็นแนวนอนด้านบน */
+  @media (max-width: 600px) {
+    .plan-layout2 { grid-template-columns: 1fr !important; }
+    .plan-layout2 > .side-col { grid-column: auto; }
+    .day-rail { position: static; }
+    .day-rail .day-tabs { flex-direction: row !important; flex-wrap: wrap !important; }
+    .day-rail .day-tab { width: auto !important; }
+  }
+
+  /* V46: ทั้งหมดอยู่ซ้าย แผนที่อยู่ขวาเต็มความสูง (ส่วนหัวด้านบนไม่เปลี่ยน) */
+  #planPage.planpage { max-width: none !important; margin: 0 !important; padding: 0 !important; }
+  #planPage .trip-head { margin: 16px 16px 0 16px !important; }
+  .plan-split { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); align-items: start; }
+  .left-half { padding: 16px 12px 40px 16px; min-width: 0; }
+  .left-grid { display: grid; grid-template-columns: 120px minmax(0, 1fr); gap: 16px; align-items: start; }
+  .left-main { min-width: 0; }
+  .day-rail { position: sticky; top: 16px; }
+  .right-half { position: sticky; top: 0; height: 100vh; padding: 16px 16px 16px 4px; box-sizing: border-box; }
+  .map-full { height: calc(100vh - 32px); margin: 0 !important; display: flex; flex-direction: column; box-sizing: border-box; }
+  .map-full .map-box { flex: 1; height: auto !important; min-height: 260px; }
+  @media (max-width: 900px) {
+    .plan-split { grid-template-columns: 1fr; }
+    .right-half { position: static; height: 420px; padding: 0 16px 16px; }
+    .map-full { height: 100%; }
+    .left-grid { grid-template-columns: 96px minmax(0, 1fr); }
+  }
+  @media (max-width: 600px) {
+    .left-grid { grid-template-columns: 1fr; }
+    .day-rail .day-tabs { flex-direction: row !important; flex-wrap: wrap !important; }
+    .day-rail .day-tab { width: auto !important; }
+  }
 </style>
 </head>
 <body>
@@ -1609,14 +1677,15 @@
     <div class="brand">ChomChao</div>
     <button id="navPlan" class="nav-btn active" onclick="go('plan')">วางแผนการเที่ยว</button>
     <button id="navFood" class="nav-btn" onclick="go('food')">ร้านอาหาร</button>
+    <button id="navBudget" class="nav-btn" onclick="go('budget')">งบประมาณ</button>
     <button id="navAdmin" class="nav-btn hidden" onclick="go('admin')">จัดการสิทธิ์</button>
     <span class="who" id="whoLabel"></span>
     <button class="logout" onclick="logout()">ออกจากระบบ</button>
   </div>
 
   <!-- หน้าวางแผน -->
-  <div id="planPage" class="container">
-    <div class="card">
+  <div id="planPage" class="container planpage">
+    <div class="card trip-head">
       <div class="settings">
         <div class="field" style="grid-column:1/-1">
           <label>ทริป</label>
@@ -1643,89 +1712,100 @@
           <input type="date" id="tripStart" style="width:100%" onchange="updateTripSettings()">
         </div>
       </div>
-
       <div class="clock-box">
         <div class="time" id="clock">กำลังโหลดเวลา...</div>
         <div class="status" id="tripStatus"></div>
         <div class="rate-note" id="rateNote"></div>
         <div class="rate-note" id="usageNote"></div>
       </div>
-
-      <div class="day-tabs" id="dayTabs"></div>
     </div>
 
-    <div class="card">
-      <div class="wx-split">
-        <div style="min-width:0">
-          <div class="sub row" style="justify-content:space-between;flex-wrap:nowrap">
-            <span>สภาพอากาศตอนนี้ตามตำแหน่งของคุณ</span>
-            <button id="trackBtn" class="btn btn-small" onclick="toggleTracking()">เริ่มติดตามตำแหน่ง</button>
-          </div>
-          <div id="liveBox" class="small"></div>
-        </div>
-        <div style="min-width:0;overflow-x:auto">
-          <div class="sub">พยากรณ์อากาศในทริป</div>
-          <div id="weatherBox" class="small"></div>
-        </div>
-      </div>
-    </div>
-
-    <div class="card">
-      <h2>โรงแรมที่พัก</h2>
-      <div style="position:relative">
-        <label class="small" style="font-weight:600">ชื่อโรงแรม</label>
-        <input type="text" id="hName" placeholder="พิมพ์ชื่อโรงแรม เช่น ชิบุยา" autocomplete="off" style="width:100%" oninput="onHotelInput()">
-        <div id="hSuggest" class="suggest hidden"></div>
-        <div id="hPreview" class="preview-pick hidden"></div>
-      </div>
-      <div id="hCal" class="hidden cal-box" style="margin-top:16px"></div>
-      <div class="row" style="margin-top:12px">
-        <button class="btn btn-small" onclick="saveHotel()">บันทึกโรงแรม</button>
-        <span id="hErr" class="err-inline"></span>
-      </div>
-      <div id="lodgingBox" style="margin-top:12px"></div>
-    </div>
-
-    <div class="plan-layout">
-      <div class="card">
-        <div class="row" style="justify-content:space-between">
-          <h2 id="dayTitle" style="margin:0"></h2>
-          <div class="row"><button id="foldBtn" class="btn btn-light btn-small" onclick="toggleDay()">พับ</button><button class="btn btn-small" onclick="toggleForm()">+ เพิ่มกิจกรรม</button></div>
-        </div>
-
-        <div id="activityForm" class="hidden" style="margin-top:12px; background:#f9fafb; padding:12px; border-radius:10px;">
-          <div class="form-grid">
-            <div><label>เวลาเริ่ม</label><input type="time" id="fStart"></div>
-            <div><label>เวลาจบ</label><input type="time" id="fEnd"></div>
-            <div class="full"><label>ชื่อกิจกรรม</label><input type="text" id="fTitle" placeholder="เช่น วัดเซนโซจิ"></div>
-            <div class="full" style="position:relative"><label>สถานที่</label><input autocomplete="off" oninput="onLocInput()" onblur="hideLocSuggest()" type="text" id="fLoc" placeholder="เช่น อาซากุสะ โตเกียว">
-            <div id="fLocSuggest" class="suggest hidden"></div></div>
-            <div><label>ค่าเข้าโดยประมาณ (<span id="feeCurLabel">สกุลเงินของทริป</span>)</label><select id="fFee"><option value="">ไม่ทราบ (ใช้ค่าโดยประมาณของระบบ)</option><option value="0">ฟรี</option><option value="500">ไม่เกิน 500</option><option value="1000">500 ถึง 1,000</option><option value="2000">1,000 ถึง 2,000</option><option value="3000">มากกว่า 2,000</option></select></div>
-            <div><label>หมายเหตุ</label><input type="text" id="fNote" placeholder="เช่น มาเช้าจะไม่แออัด"></div>
-          </div>
-          <div class="row" style="margin-top:10px">
-            <button class="btn btn-small" onclick="saveActivity()">บันทึก</button>
-            <button class="btn btn-light btn-small" onclick="toggleForm()">ยกเลิก</button>
-            <span id="formErr" class="err-inline"></span>
-          </div>
-        </div>
-
-        <div class="small" style="margin-top:12px">ค่าเดินทางเป็นค่าประมาณจากอัตราทั่วไป (ราคาจริงจะเชื่อม Google Maps ในขั้นที่ 5)</div>
-        <div class="fold-wrap" id="foldWrap"><div class="fold-inner"><div id="activityList" style="margin-top:12px"></div></div></div>
-      </div>
-
-      <div class="card">
-        <h2>แผนที่</h2>
-        <div class="map-box" id="mapBox">
-          <div class="grid-lines"></div>
-          <div class="map-note">แผนที่จำลอง ตำแหน่งหมุดอิงจากพิกัดที่รู้จัก Google Maps จริงจะเชื่อมในขั้นที่ 5</div>
-        </div>
-        <div class="summary">
-          <div class="stat clickable" onclick="openBudget('day')" title="กดเพื่อดูรายละเอียด"><div class="k">งบประมาณวันนี้</div><div class="v" id="dayBudget">0 บาท</div></div>
-          <div class="stat clickable" onclick="openBudget('trip')" title="กดเพื่อดูรายละเอียด"><div class="k">งบประมาณทั้งทริป</div><div class="v" id="tripBudget">0 บาท</div></div>
-        </div>
+    <div class="plan-split">
+      <div class="left-half">
+        <div class="left-grid">
+          <aside class="day-rail">
+            <div class="day-rail-title">วัน</div>
+            <div class="day-tabs" id="dayTabs"></div>
+          </aside>
+          <div class="left-main">
+            <div class="card">
+              <div class="row" style="justify-content:space-between">
+                <h2 id="dayTitle" style="margin:0"></h2>
+                <div class="row"><button id="foldBtn" class="btn btn-light btn-small" onclick="toggleDay()">พับ</button><button class="btn btn-small" onclick="toggleForm()">+ เพิ่มกิจกรรม</button></div>
               </div>
+              <div id="activityForm" class="hidden" style="margin-top:12px; background:#f9fafb; padding:12px; border-radius:10px;">
+                <div class="form-grid">
+                  <div><label>เวลาเริ่ม</label><input type="time" id="fStart"></div>
+                  <div><label>เวลาจบ</label><input type="time" id="fEnd"></div>
+                  <div class="full"><label>ชื่อกิจกรรม</label><input type="text" id="fTitle" placeholder="เช่น วัดเซนโซจิ"></div>
+                  <div class="full" style="position:relative"><label>สถานที่</label><input autocomplete="off" oninput="onLocInput()" onblur="hideLocSuggest()" type="text" id="fLoc" placeholder="เช่น อาซากุสะ โตเกียว">
+                  <div id="fLocSuggest" class="suggest hidden"></div></div>
+                  <div><label>ค่าเข้าโดยประมาณ (<span id="feeCurLabel">สกุลเงินของทริป</span>)</label><select id="fFee"><option value="">ไม่ทราบ (ใช้ค่าโดยประมาณของระบบ)</option><option value="0">ฟรี</option><option value="500">ไม่เกิน 500</option><option value="1000">500 ถึง 1,000</option><option value="2000">1,000 ถึง 2,000</option><option value="3000">มากกว่า 2,000</option></select></div>
+                  <div><label>หมายเหตุ</label><input type="text" id="fNote" placeholder="เช่น มาเช้าจะไม่แออัด"></div>
+                </div>
+                <div class="row" style="margin-top:10px">
+                  <button class="btn btn-small" onclick="saveActivity()">บันทึก</button>
+                  <button class="btn btn-light btn-small" onclick="toggleForm()">ยกเลิก</button>
+                  <span id="formErr" class="err-inline"></span>
+                </div>
+              </div>
+              <div class="small" style="margin-top:12px">ค่าเดินทางเป็นค่าประมาณจากอัตราทั่วไป (ราคาจริงจะเชื่อม Google Maps ในขั้นที่ 5)</div>
+              <div class="fold-wrap" id="foldWrap"><div class="fold-inner"><div id="activityList" style="margin-top:12px"></div></div></div>
+            </div>
+
+            <div class="card">
+              <div class="row" style="justify-content:space-between">
+                <h2 style="margin:0">อากาศตอนนี้ตามตำแหน่งของคุณ</h2>
+                <button id="trackBtn" class="btn btn-small" onclick="toggleTracking()">เริ่มติดตามตำแหน่ง</button>
+              </div>
+              <div id="liveBox" class="small" style="margin-top:10px"></div>
+              <h2 style="margin-top:18px">พยากรณ์อากาศในทริป</h2>
+              <div id="weatherBox" class="small"></div>
+            </div>
+
+            <div class="card">
+              <h2>โรงแรมที่พัก</h2>
+              <div style="position:relative">
+                <label class="small" style="font-weight:600">ชื่อโรงแรม</label>
+                <input type="text" id="hName" placeholder="พิมพ์ชื่อโรงแรม เช่น ชิบุยา" autocomplete="off" style="width:100%" oninput="onHotelInput()">
+                <div id="hSuggest" class="suggest hidden"></div>
+                <div id="hPreview" class="preview-pick hidden"></div>
+              </div>
+              <div id="hCal" class="hidden cal-box" style="margin-top:16px"></div>
+              <div class="row" style="margin-top:12px">
+                <button class="btn btn-small" onclick="saveHotel()">บันทึกโรงแรม</button>
+                <span id="hErr" class="err-inline"></span>
+              </div>
+              <div id="lodgingBox" style="margin-top:12px"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="right-half">
+        <div class="card map-full">
+          <div class="row" style="justify-content:space-between">
+            <h2 style="margin:0">แผนที่</h2>
+            <div class="row small">
+              <button class="btn btn-light btn-small" onclick="go('budget')">งบประมาณ</button>
+            </div>
+          </div>
+          <div class="map-box" id="mapBox">
+            <div class="grid-lines"></div>
+            <div class="map-note">แผนที่จำลอง ตำแหน่งหมุดอิงจากพิกัดที่รู้จัก Google Maps จริงจะเชื่อมในขั้นที่ 5</div>
+          </div>
+          <div class="summary">
+            <div class="stat clickable" onclick="go('budget')" title="ดูงบประมาณ"><div class="k">งบประมาณวันนี้</div><div class="v" id="dayBudget">0 บาท</div></div>
+            <div class="stat clickable" onclick="go('budget')" title="ดูงบประมาณ"><div class="k">งบประมาณทั้งทริป</div><div class="v" id="tripBudget">0 บาท</div></div>
+          </div>
+        </div>
+      </div>
     </div>
+  </div>
+
+  <!-- หน้างบประมาณ -->
+  <div id="budgetPage" class="container hidden">
+    <div id="budgetPageBody"></div>
   </div>
 
   <!-- หน้าจัดการสิทธิ์ -->
@@ -2261,15 +2341,44 @@ function showApp() {
 function go(page) {
   if (page === 'admin' && state.me.role !== 'admin') page = 'plan';
   state.page = page;
-  document.getElementById('planPage').classList.toggle('hidden', page !== 'plan');
-  document.getElementById('foodPage').classList.toggle('hidden', page !== 'food');
-  document.getElementById('adminPage').classList.toggle('hidden', page !== 'admin');
-  document.getElementById('navPlan').classList.toggle('active', page === 'plan');
-  document.getElementById('navFood').classList.toggle('active', page === 'food');
-  document.getElementById('navAdmin').classList.toggle('active', page === 'admin');
+  const pages = { plan: 'planPage', food: 'foodPage', budget: 'budgetPage', admin: 'adminPage' };
+  Object.keys(pages).forEach(k => document.getElementById(pages[k]).classList.toggle('hidden', page !== k));
+  ['navPlan', 'navFood', 'navBudget', 'navAdmin'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.classList.toggle('active', id === 'nav' + page.charAt(0).toUpperCase() + page.slice(1));
+  });
   if (page === 'plan') { state.animateNext = true; renderPlan(); }
   if (page === 'food') { state.animateFood = true; renderFood(); }
+  if (page === 'budget') renderBudgetPage();
   if (page === 'admin') renderAdmin();
+}
+
+// หน้างบประมาณ: แสดงทั้งวันที่เลือกและทั้งทริป
+function renderBudgetPage() {
+  const trip = getTrip();
+  const plans = myPlans().filter(p => p.trip === trip.name);
+  document.getElementById('budgetPageBody').innerHTML =
+    budgetBlock('วันที่ ' + state.selectedDay, plans.filter(p => p.day === state.selectedDay)) +
+    budgetBlock('ทั้งทริป: ' + trip.name, plans);
+}
+
+function budgetBlock(title, plans) {
+  const entries = plans.map(p => ({ p, c: planCost(p) }));
+  const fmt = n => n.toLocaleString() + ' บาท';
+  const sum = k => entries.reduce((t, x) => t + x.c[k], 0);
+  const sec = (head, rows, total) => `
+    <div class="budget-sec">
+      <div class="budget-head"><span>${head}</span><b>${fmt(total)}</b></div>
+      ${rows.length ? rows.map(r => `<div class="budget-row"><span>${r.label}</span><span>${r.amt}</span></div>`).join('') : '<div class="small">ไม่มีรายการ</div>'}
+    </div>`;
+  const entryRows = entries.filter(x => x.c.entry > 0).map(x => ({ label: x.p.title + (x.c.fee.auto ? ' (โดยประมาณ)' : ''), amt: fmt(x.c.entry) }));
+  const travelRows = entries.filter(x => x.c.travel > 0).map(x => ({ label: 'ไป ' + x.p.title + ': ' + state.chosenRoutes[x.p.id].name, amt: fmt(x.c.travel) }));
+  return `<div class="card" style="margin-top:18px">
+    <h2>${title}</h2>
+    <div class="budget-total">รวมทั้งหมด <b>${fmt(sum('total'))}</b></div>
+    ${sec('ค่าเข้าสถานที่', entryRows, sum('entry'))}
+    ${sec('ค่าเดินทาง', travelRows, sum('travel'))}
+  </div>`;
 }
 
 // ================= เวลาจริงและวันของทริป =================
