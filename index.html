@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>ChomChao V47</title>
+<title>ChomChao V48</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -1640,6 +1640,168 @@
     .left-grid { grid-template-columns: 1fr; }
     .day-rail .day-tabs { flex-direction: row !important; flex-wrap: wrap !important; }
     .day-rail .day-tab { width: auto !important; }
+  }
+
+  /* =====================================================================
+     V48: ชั้นดีไซน์สุดท้าย — ทันสมัย สมดุล และลื่น (ปรับเฉพาะหน้าตา ฟังก์ชันเดิมไม่เปลี่ยน)
+     ===================================================================== */
+  :root {
+    --bg: #f5f6f8;
+    --surface: #ffffff;
+    --surface-2: #f8f9fb;
+    --ink: #111827;
+    --ink-2: #4b5563;
+    --ink-3: #6b7280;
+    --line: #e5e7eb;
+    --line-2: #d1d5db;
+    --accent: #0f766e;
+    --accent-2: #115e59;
+    --accent-soft: #ecfdf5;
+    --warn: #b91c1c;
+    --radius-lg: 16px;
+    --radius-md: 12px;
+    --radius-sm: 10px;
+    --shadow-1: 0 1px 2px rgba(17,24,39,.04);
+    --shadow-2: 0 10px 28px rgba(17,24,39,.08);
+    --ease: cubic-bezier(.2,.8,.2,1);
+  }
+
+  /* พื้นและตัวอักษรพื้นฐาน */
+  html, body { background: var(--bg) !important; animation: none !important; }
+  body { color: var(--ink) !important; font-size: 15px; line-height: 1.6; -webkit-font-smoothing: antialiased; }
+  body::before, body::after, html::before { display: none !important; }
+  .login-wrap { background: var(--bg) !important; }
+  h1, h2, h3 { color: var(--ink) !important; letter-spacing: -.01em; }
+  h2 { font-size: 15px !important; font-weight: 600 !important; }
+  .small, .meta, .activity .meta, .rate-note, .k, .empty, .form-grid label, .account-item small, .account-list .label, label {
+    color: var(--ink-3) !important; font-weight: 400;
+  }
+
+  /* แถบบน */
+  .topbar {
+    background: rgba(255,255,255,.92) !important; backdrop-filter: saturate(1.4) blur(10px);
+    border-bottom: 1px solid var(--line) !important; box-shadow: none !important;
+    min-height: 56px; padding: 0 20px !important; display: flex; align-items: center; gap: 8px;
+  }
+  .topbar::after { display: none !important; }
+  .topbar .brand { color: var(--ink) !important; font-weight: 700; letter-spacing: -.01em; margin-right: 16px; }
+  .topbar .brand::before { background: var(--accent) !important; width: 10px !important; height: 10px !important; }
+  .topbar .nav-btn { border-radius: 8px !important; padding: 7px 12px !important; color: var(--ink-2) !important; font-weight: 500; transition: background-color .2s var(--ease), color .2s var(--ease); }
+  .topbar .nav-btn:hover { background: var(--surface-2) !important; color: var(--ink) !important; }
+  .topbar .nav-btn.active, .topbar .nav-btn.active:hover { background: var(--accent-soft) !important; color: var(--accent-2) !important; font-weight: 600; }
+  .topbar .who { color: var(--ink-3) !important; font-size: 13px; }
+
+  /* การ์ด */
+  .card, .login-card, .modal-box {
+    background: var(--surface) !important; border: 1px solid var(--line) !important;
+    border-radius: var(--radius-lg) !important; box-shadow: var(--shadow-1) !important;
+    padding: 20px !important; margin-bottom: 16px !important;
+    transition: box-shadow .25s var(--ease), border-color .25s var(--ease);
+  }
+  .card::before { display: none !important; }
+  .card:hover { box-shadow: var(--shadow-1) !important; }
+  .card h2 { margin-bottom: 14px !important; }
+
+  /* ช่องกรอก */
+  input, select, textarea {
+    background: var(--surface) !important; color: var(--ink) !important;
+    border: 1px solid var(--line-2) !important; border-radius: var(--radius-sm) !important;
+    padding: 9px 12px !important; font-size: 14px !important; height: 40px; box-sizing: border-box;
+    transition: border-color .2s var(--ease), box-shadow .2s var(--ease);
+  }
+  input:focus, select:focus, textarea:focus { outline: none; border-color: var(--accent) !important; box-shadow: 0 0 0 3px rgba(15,118,110,.14) !important; }
+  input::placeholder { color: #9ca3af !important; }
+
+  /* แถบวันแนวตั้ง */
+  .day-rail-title { font-size: 12px !important; color: var(--ink-3) !important; font-weight: 600; text-transform: uppercase; letter-spacing: .06em; margin: 0 0 10px 2px !important; }
+  .day-rail .day-tabs { gap: 6px !important; }
+  .day-rail .day-tab {
+    border-radius: var(--radius-sm) !important; padding: 9px 12px !important; font-size: 13px !important;
+    text-align: left; transition: background-color .2s var(--ease), color .2s var(--ease), border-color .2s var(--ease);
+  }
+  .day-tab.active { background: var(--ink) !important; color: #fff !important; border-color: var(--ink) !important; }
+
+  /* การ์ดกิจกรรม */
+  .activity {
+    background: var(--surface) !important; border: 1px solid var(--line) !important;
+    border-left-width: 1px !important; border-radius: var(--radius-md) !important;
+    padding: 14px !important; gap: 14px !important; box-shadow: none !important;
+    transition: border-color .2s var(--ease), background-color .2s var(--ease);
+  }
+  .activity:hover { border-color: var(--line-2) !important; background: #fcfcfd !important; box-shadow: none !important; transform: none !important; }
+  .activity .time {
+    background: var(--surface-2) !important; color: var(--ink-2) !important; border: 1px solid var(--line) !important;
+    border-radius: 999px !important; padding: 2px 10px !important; font-size: 12px !important; font-weight: 600;
+  }
+  .activity .title { font-size: 16px !important; font-weight: 600 !important; color: var(--ink) !important; margin-top: 6px !important; }
+  .activity > label .thumb, .activity > label .thumb-empty { border-radius: var(--radius-sm) !important; }
+  .activity .meta { font-size: 13px !important; line-height: 1.65 !important; }
+
+  /* หัวข้อวัน */
+  .day-head { border-bottom: 1px solid var(--line) !important; padding: 12px 2px !important; margin-top: 20px !important; }
+  .day-head b { font-size: 15px !important; color: var(--ink) !important; }
+  .day-head.on b { color: var(--accent) !important; }
+  .day-head.on { border-bottom-color: var(--accent) !important; }
+
+  /* การเดินทางและกล่องข้อมูล */
+  .route { background: var(--surface-2) !important; border: 1px solid var(--line) !important; border-left: 2px dashed var(--line-2) !important; border-radius: var(--radius-md) !important; }
+  .route-row { border-top: 1px solid var(--line) !important; border-radius: 8px !important; transition: background-color .2s var(--ease); }
+  .route-row:hover, .route-row.selected { background: var(--surface) !important; }
+  .note-box { background: var(--surface-2) !important; border: 1px solid var(--line) !important; border-left: 2px solid var(--accent) !important; border-radius: var(--radius-sm) !important; color: var(--ink-2) !important; font-weight: 400 !important; }
+  .clock-box, .stat, .wx-item {
+    background: var(--surface-2) !important; border: 1px solid var(--line) !important; border-radius: var(--radius-md) !important;
+    box-shadow: none !important;
+  }
+  .clock-box .time { font-size: 15px !important; color: var(--ink) !important; font-weight: 600; }
+  .stat .v { font-size: 20px !important; color: var(--ink) !important; -webkit-text-fill-color: currentColor; font-weight: 700; }
+  .stat.clickable { transition: background-color .2s var(--ease), border-color .2s var(--ease); cursor: pointer; }
+  .stat.clickable:hover { background: var(--surface) !important; border-color: var(--line-2) !important; box-shadow: none !important; transform: none !important; }
+
+  /* แผนที่ */
+  .map-box { background: #eef2f1 !important; border: 1px solid var(--line) !important; border-radius: var(--radius-md) !important; }
+  .map-box .grid-lines { opacity: .5; }
+  .map-note { background: rgba(255,255,255,.92) !important; border: 1px solid var(--line) !important; border-radius: 8px !important; color: var(--ink-2) !important; }
+  .pin, .pin:hover { background: var(--ink) !important; border: 2px solid #fff !important; }
+  .pin-food { background: var(--accent) !important; }
+
+  /* ป้ายสถานะ */
+  .tag { border-radius: 999px !important; font-weight: 600 !important; font-size: 12px !important; padding: 2px 9px !important; }
+
+  /* ตารางงบ */
+  .budget-sec { border: 1px solid var(--line) !important; border-radius: var(--radius-md) !important; }
+  .budget-row { border-top: 1px solid var(--line) !important; }
+
+  /* หน้าต่างและการแจ้งเตือน */
+  .modal { background: rgba(17,24,39,.4) !important; backdrop-filter: blur(3px); }
+  .modal-box { box-shadow: var(--shadow-2) !important; border-radius: 18px !important; }
+  .toast { background: var(--ink) !important; color: #fff !important; border-radius: 12px !important; box-shadow: var(--shadow-2); }
+
+  /* เส้นแบ่งเรียบ สม่ำเสมอ */
+  .fold-wrap, .fold-inner { transition: grid-template-rows .3s var(--ease), opacity .25s var(--ease) !important; }
+
+  /* สมดุลระยะห่างของเลย์เอาต์ */
+  #planPage .trip-head { padding: 20px !important; }
+  .left-half { padding: 20px 16px 48px 20px !important; }
+  .right-half { padding: 20px 20px 20px 4px !important; }
+  .left-grid { gap: 20px !important; }
+  .plan-split { gap: 0; }
+
+  /* แถบเลื่อนบาง */
+  * { scrollbar-width: thin; scrollbar-color: #cbd5e1 transparent; }
+
+  /* ความลื่น: ลดการคำนวณซ้ำ เคลื่อนไหวเฉพาะ transform/opacity */
+  .card, .activity, .stat, .clock-box { will-change: auto !important; }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation: none !important; transition: none !important; }
+  }
+
+  @media (max-width: 600px) {
+    .topbar { padding: 0 12px !important; flex-wrap: wrap; min-height: 0; padding-top: 8px !important; padding-bottom: 8px !important; }
+    .left-half { padding: 14px 12px 40px !important; }
+    .right-half { padding: 0 12px 16px !important; }
+    .card { padding: 16px !important; }
+    .activity { flex-direction: column !important; }
   }
 </style>
 </head>
